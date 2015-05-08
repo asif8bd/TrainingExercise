@@ -1,28 +1,29 @@
 package com.mf.ashid.java8;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Problem3 {
 	public static void main(String[] args) throws IOException {
-		try (Stream<String> stream = Files
-				.lines(Paths.get("D:/ASIF/ncema1_ddy.csv"))) {
-			Map<String, List<String>> results = stream
+		try (BufferedReader br = new BufferedReader(new FileReader(
+				"D:/ASIF/ncema1_ddy.csv"))) {
+			
+			br.lines()
 					.filter(line -> line.startsWith("key"))
-					.map(line -> new String[] { line.split(",")[1],
-							line.split(",")[3] })
-					.collect(
-							Collectors.groupingBy(
-									n -> n[0],
-									Collectors.mapping(n -> n[1],
-											Collectors.toList())));
-			// Print File names with related key names
-			results.forEach((k, v) -> System.out.println(k + "=" + v));
+					.map(line -> line.split(",")[3])
+					.collect(Collectors.groupingBy(s->s.substring(0, 2)))
+					.forEach((k, v) -> System.out.println(k + "=" + v));
+			
+			
+
+			// Map<Object, List<String[]>> col = br.lines()
+			// .filter(l -> l.startsWith("key")).map(l -> l.split(","))
+			// .collect(Collectors.groupingBy(a -> a[1]));
+			//
+			// col.forEach((k, v) -> System.out.println(k + " = "
+			// + v.stream().map(a -> a[3]).collect(Collectors.toList())));
 
 		}
 
